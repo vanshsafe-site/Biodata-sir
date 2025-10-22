@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Vivek Shanti Vishaal – Foldable Biodata</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+@page { size: A4 landscape; margin: 0; }
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#1a1a2e;
+  font-family:'Inter',Arial,sans-serif;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+
+.page{
+  width:297mm; 
+  height:210mm;
+  background:#0f0f1e;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(2,1fr);
+  margin:auto;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+  position:relative;
+}
+
+.page::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:
+    linear-gradient(135deg, rgba(147,51,234,0.03) 0%, transparent 50%),
+    linear-gradient(-135deg, rgba(59,130,246,0.03) 0%, transparent 50%);
+  pointer-events:none;
+}
+
+.block{
+  border:1px solid rgba(255,255,255,0.08);
+  padding:8mm;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  position:relative;
+  background:rgba(15,15,30,0.5);
+  backdrop-filter:blur(10px);
+  transition:all 0.3s ease;
+}
+
+.block:hover{
+  background:rgba(25,25,45,0.7);
+  border-color:rgba(147,51,234,0.3);
+  transform:translateY(-2px);
+}
+
+.block::after{
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:2px;
+  background:linear-gradient(90deg, 
+    transparent,
+    rgba(147,51,234,0.5) 30%,
+    rgba(59,130,246,0.5) 70%,
+    transparent
+  );
+  opacity:0;
+  transition:opacity 0.3s ease;
+}
+
+.block:hover::after{
+  opacity:1;
+}
+
+.profile{
+  background:linear-gradient(135deg, #1e1e3f 0%, #2d1b4e 100%);
+  border:2px solid rgba(147,51,234,0.3);
+}
+
+.profile:hover{
+  background:linear-gradient(135deg, #252550 0%, #3d2b5e 100%);
+  border-color:rgba(147,51,234,0.5);
+}
+
+.photo{
+  width:45mm;
+  height:45mm;
+  border-radius:50%;
+  background:linear-gradient(135deg, #6366f1, #8b5cf6);
+  overflow:hidden;
+  margin-bottom:6mm;
+  box-shadow:
+    0 0 0 3px rgba(147,51,234,0.3),
+    0 8px 24px rgba(147,51,234,0.4),
+    inset 0 2px 4px rgba(255,255,255,0.1);
+  position:relative;
+  cursor:pointer;
+  transition:all 0.3s ease;
+}
+
+.photo:hover{
+  transform:scale(1.05);
+  box-shadow:
+    0 0 0 4px rgba(147,51,234,0.5),
+    0 12px 32px rgba(147,51,234,0.6),
+    inset 0 2px 4px rgba(255,255,255,0.15);
+}
+
+.photo::after{
+  content:'Drag & Drop Photo';
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(0,0,0,0.8);
+  color:rgba(255,255,255,0.6);
+  font-size:9px;
+  padding:4px;
+  opacity:0;
+  transition:opacity 0.3s ease;
+}
+
+.photo:hover::after{
+  opacity:1;
+}
+
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.name{
+  font-size:18px;
+  font-weight:700;
+  font-family:'Playfair Display',serif;
+  color:#fff;
+  margin-bottom:4px;
+  text-shadow:0 2px 8px rgba(147,51,234,0.5);
+  letter-spacing:0.5px;
+}
+
+.tag{
+  font-size:13px;
+  color:#a78bfa;
+  font-weight:500;
+  margin-bottom:6px;
+  letter-spacing:0.3px;
+}
+
+.contact{
+  font-size:11px;
+  line-height:1.6;
+  margin-top:6px;
+  color:#94a3b8;
+  font-weight:400;
+}
+
+.contact br{
+  margin:2px 0;
+}
+
+.title{
+  font-weight:700;
+  font-size:15px;
+  margin-bottom:8px;
+  color:#fff;
+  font-family:'Playfair Display',serif;
+  position:relative;
+  padding-bottom:6px;
+  letter-spacing:0.5px;
+}
+
+.title::after{
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:40px;
+  height:2px;
+  background:linear-gradient(90deg, 
+    transparent,
+    rgba(147,51,234,0.8),
+    rgba(59,130,246,0.8),
+    transparent
+  );
+}
+
+.text{
+  font-size:11px;
+  line-height:1.5;
+  text-align:left;
+  color:#cbd5e1;
+  font-weight:400;
+  max-width:90%;
+}
+
+.text strong{
+  color:#a78bfa;
+}
+
+.controls{
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:50;
+  display:flex;
+  gap:10px;
+}
+
+.btn{
+  background:linear-gradient(135deg, #6366f1, #8b5cf6);
+  color:#fff;
+  border:none;
+  padding:12px 24px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 4px 16px rgba(147,51,234,0.4);
+  transition:all 0.3s ease;
+  font-family:'Inter',sans-serif;
+}
+
+.btn:hover{
+  background:linear-gradient(135deg, #7c3aed, #a855f7);
+  box-shadow:0 6px 24px rgba(147,51,234,0.6);
+  transform:translateY(-2px);
+}
+
+.btn:active{
+  transform:translateY(0);
+}
+
+@media print{
+  body{
+    background:white;
+  }
+  .page{
+    box-shadow:none;
+    background:#0f0f1e;
+  }
+  .controls{
+    display:none;
+  }
+  .block:hover{
+    transform:none;
+  }
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.block{
+  animation:fadeIn 0.6s ease-out backwards;
+}
+
+.block:nth-child(1){animation-delay:0.1s;}
+.block:nth-child(2){animation-delay:0.2s;}
+.block:nth-child(3){animation-delay:0.3s;}
+.block:nth-child(4){animation-delay:0.4s;}
+.block:nth-child(5){animation-delay:0.5s;}
+.block:nth-child(6){animation-delay:0.6s;}
+</style>
+</head>
+<body>
+<div class="controls">
+  <button class="btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+</div>
+
+<div class="page">
+
+  <!-- 1 -->
+  <div class="block profile">
+    <div class="photo">
+      <img src="data:image/svg+xml;utf8,
+        <svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'>
+          <defs>
+            <linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'>
+              <stop offset='0%' style='stop-color:%236366f1;stop-opacity:1'/>
+              <stop offset='100%' style='stop-color:%238b5cf6;stop-opacity:1'/>
+            </linearGradient>
+          </defs>
+          <rect width='100%' height='100%' fill='url(%23grad)'/>
+          <text x='50%' y='50%' font-size='32' fill='white' font-weight='600'
+           text-anchor='middle' dominant-baseline='middle'>PHOTO</text>
+        </svg>" alt="Profile">
+    </div>
+    <div class="name">Vivek Shanti Vishaal</div>
+    <div class="tag">Hindustani Classical Vocalist</div>
+    <div class="contact">
+      Darbhanga Gharana | PhD Scholar<br>
+      ✉ geetsangeet70@gmail.com<br>
+      ☏ 9335110641 / 9453559818
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="block">
+    <div class="title">About</div>
+    <div class="text">
+      Vocalist from Prayagraj, trained under Pt Prem Kumar Mallik.  
+      Holds Master's and JRF from Univ. of Allahabad.  
+      Composer & teacher with students in India and abroad.
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="block">
+    <div class="title">Honours</div>
+    <div class="text">
+      • Culture Ministry Scholarship (2006-08) for Khyal Gayan.  
+      • UP Sangit Natak Akademi State Winner (2007).  
+      • Recipient of several academic awards in music.
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="block">
+    <div class="title">Judging & Events</div>
+    <div class="text">
+      Invited as judge at NCL Fest, Youth Fests, Yuva Mahotsav 2019, Rotary Club, and other competitions across UP and MP.  
+      Encourages young talent nation-wide.
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="block">
+    <div class="title">Workshops</div>
+    <div class="text">
+      Conducted training at Aarohan Camp (NCL 2020), Allahabad Museum (2012), Chinmay Mission, Gonda & Jabalpur.  
+      Focus on voice culture and performance skills.
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="block">
+    <div class="title">Performances & Projects</div>
+    <div class="text">
+      Appeared at Sur Ganga, Subah-e-Banaras, Awadh Sandhya, Kabeer Amrit Mahotsav, Ramostav (Ayodhya), Gorakhpur Mahotsav & others.  
+      Leads a team performing "Kabeerwani".
+    </div>
+  </div>
+
+</div>
+
+<script>
+const photo = document.querySelector('.photo');
+
+photo.addEventListener('dragover', e => {
+  e.preventDefault();
+  photo.style.transform = 'scale(1.08)';
+  photo.style.boxShadow = '0 0 0 4px rgba(147,51,234,0.6), 0 12px 32px rgba(147,51,234,0.7)';
+});
+
+photo.addEventListener('dragleave', () => {
+  photo.style.transform = '';
+  photo.style.boxShadow = '';
+});
+
+photo.addEventListener('drop', e => {
+  e.preventDefault();
+  photo.style.transform = '';
+  photo.style.boxShadow = '';
+  
+  const f = e.dataTransfer.files[0];
+  if(f && f.type.startsWith('image/')){
+    const r = new FileReader();
+    r.onload = ev => {
+      const img = photo.querySelector('img');
+      img.src = ev.target.result;
+      img.style.animation = 'fadeIn 0.5s ease-out';
+    };
+    r.readAsDataURL(f);
+  }
+});
+
+// Click to upload alternative
+photo.addEventListener('click', () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = e => {
+    const f = e.target.files[0];
+    if(f){
+      const r = new FileReader();
+      r.onload = ev => {
+        const img = photo.querySelector('img');
+        img.src = ev.target.result;
+        img.style.animation = 'fadeIn 0.5s ease-out';
+      };
+      r.readAsDataURL(f);
+    }
+  };
+  input.click();
+});
+</script>
+</body>
+</html>
